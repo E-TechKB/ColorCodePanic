@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>COLOR CODE PANIC</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="flash-overlay"></div>
+
+    <div id="settings-area">
+        <h2>COLOR CODE PANIC</h2>
+        
+        <div class="difficulty-buttons">
+            <button class="diff-btn btn-easy" onpointerdown="startGame(100)">EASY <span>(BPM 100)</span></button>
+            <button class="diff-btn btn-normal" onpointerdown="startGame(120)">NORMAL <span>(BPM 120)</span></button>
+            <button class="diff-btn btn-fast" onpointerdown="startGame(200)">EXTREME <span>(BPM 200)</span></button>
+        </div>
+    </div>
+
+    <div id="game-ui" class="game-container hidden">
+        
+        <div id="fever-overlay" class="fever-text">FEVER TIME!! x3 SCORE</div>
+
+        <div class="info-header">
+            <span id="hearts-display" class="hearts">❤️❤️❤️</span>
+            <span id="bpm-display" class="bpm-info">BPM: 100</span>
+            <span class="time-info">TIME: <span id="time-display" class="time-display">30.00</span></span>
+        </div>
+
+        <div class="score-board">
+            <span style="text-shadow: 1px 1px 0 #000;">SCORE: <span id="score-val">0</span></span>
+            <span id="combo-display" class="combo-text">0 COMBO!</span>
+        </div>
+
+        <div id="color-card">Ready</div>
+
+        <div id="rhythm-area">
+            <div class="clap-wrapper" id="clap-container"></div>
+        </div>
+        
+        <div class="phase-bar-wrapper">
+            <div class="great-zone"></div>
+            <div id="phase-bar" class="phase-timer"></div>
+        </div>
+
+        <div class="keypad">
+            <button class="key" onpointerdown="handleInput(1)">1</button>
+            <button class="key" onpointerdown="handleInput(2)">2</button>
+            <button class="key" onpointerdown="handleInput(3)">3</button>
+            <button class="key" onpointerdown="handleInput(4)">4</button>
+            <button class="key" onpointerdown="handleInput(5)">5</button>
+            <button class="key" onpointerdown="handleInput(6)">6</button>
+            <button class="key" onpointerdown="handleInput(7)">7</button>
+            <button class="key" onpointerdown="handleInput(8)">8</button>
+            <button class="key" onpointerdown="handleInput(9)">9</button>
+            <button class="key" disabled style="opacity:0.3; background:#95a5a6;">*</button>
+            <button class="key" onpointerdown="handleInput(0)">0</button>
+            <button class="key" disabled style="opacity:0.3; background:#95a5a6;">#</button>
+        </div>
+    </div>
+
+    <div id="result-modal" class="hidden">
+        <div class="result-content">
+            <div class="result-header-label">RECORD</div>
+            <h2 id="result-title">TIME UP!</h2>
+            <div class="result-rank-box">
+                <span class="rank-label">RANK</span>
+                <div id="result-rank" class="rank-value">C</div>
+            </div>
+            <div class="result-details">
+                <p>SCORE <br><span id="result-score" class="result-num">0</span></p>
+                <p>MAX COMBO <br><span id="result-combo" class="result-num">0</span></p>
+            </div>
+            <div class="result-buttons">
+                <button class="btn-share" onclick="shareOnX()">𝕏 でポスト</button>
+                <button class="btn-retry" onpointerdown="backToTitle()">BACK TO TITLE</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
