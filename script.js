@@ -616,19 +616,3 @@ function endGame(msg) {
     
     document.getElementById('result-modal').classList.remove('hidden');
 }
-
-// ★追加：X（旧Twitter）へのシェア機能
-function shareOnX() {
-    let diffName = "EASY";
-    if (baseBpm === 120) diffName = "NORMAL";
-    if (baseBpm === 200) diffName = "EXTREME";
-    
-    const rank = document.getElementById('result-rank').innerText;
-    
-    // シェアするテキストの組み立て
-    const text = `COLOR CODE PANIC で遊んだよ！\n[${diffName}] SCORE: ${score} / MAX COMBO: ${maxCombo}\nRANK: ${rank}\n#COLORCODEPANIC\nhttps://meqcscnavnt.github.io/colorcode_test/`;
-    
-    // URLエンコードしてTwitterのIntent URLを開く
-    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
-    window.open(url, '_blank');
-}
