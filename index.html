@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-JWEHF52XW5"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-JWEHF52XW5');
     </script>
     <meta charset="UTF-8">
@@ -22,7 +19,6 @@
 
     <div id="settings-area">
         <h2>COLOR CODE PANIC</h2>
-        
         <div class="difficulty-buttons">
             <button class="diff-btn btn-easy" onpointerdown="startGame(100)">EASY <span>(BPM 100)</span></button>
             <button class="diff-btn btn-normal" onpointerdown="startGame(120)">NORMAL <span>(BPM 120)</span></button>
@@ -31,31 +27,24 @@
     </div>
 
     <div id="game-ui" class="game-container hidden">
-        
         <div id="fever-overlay" class="fever-text">FEVER TIME!! x3 SCORE</div>
-
         <div class="info-header">
             <span id="hearts-display" class="hearts">❤️❤️❤️</span>
             <span id="bpm-display" class="bpm-info">BPM: 100</span>
             <span class="time-info">TIME: <span id="time-display" class="time-display">30.00</span></span>
         </div>
-
         <div class="score-board">
             <span style="text-shadow: 1px 1px 0 #000;">SCORE: <span id="score-val">0</span></span>
             <span id="combo-display" class="combo-text">0 COMBO!</span>
         </div>
-
         <div id="color-card">Ready</div>
-
         <div id="rhythm-area">
             <div class="clap-wrapper" id="clap-container"></div>
         </div>
-        
         <div class="phase-bar-wrapper">
             <div class="great-zone"></div>
             <div id="phase-bar" class="phase-timer"></div>
         </div>
-
         <div class="keypad">
             <button class="key" onpointerdown="handleInput(1)">1</button>
             <button class="key" onpointerdown="handleInput(2)">2</button>
@@ -90,6 +79,7 @@
         </div>
     </div>
 
+    <script src="audio.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
