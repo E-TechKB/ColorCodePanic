@@ -11,70 +11,130 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>COLOR CODE PANIC</title>
+    <!-- サイバー＆アーケード風Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,700;1,900&family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div id="flash-overlay"></div>
+    <!-- 背景ワープ＆パーティクル描画用Canvas -->
+    <canvas id="fx-canvas"></canvas>
 
+    <!-- フラッシュ＆衝撃波オーバーレイ -->
+    <div id="flash-overlay"></div>
+    <div id="shockwave"></div>
+
+    <!-- タイトル・難易度選択画面 -->
     <div id="settings-area">
-        <h2>COLOR CODE PANIC</h2>
+        <div class="title-badge">CYBER OHM RHYTHM</div>
+        <h2>COLOR CODE<br><span>PANIC</span></h2>
+        <div class="high-score-box">BEST SCORE: <span id="best-score-title">0</span></div>
         <div class="difficulty-buttons">
-            <button class="diff-btn btn-easy" onpointerdown="startGame(100)">EASY <span>(BPM 100)</span></button>
-            <button class="diff-btn btn-normal" onpointerdown="startGame(120)">NORMAL <span>(BPM 120)</span></button>
-            <button class="diff-btn btn-fast" onpointerdown="startGame(200)">EXTREME <span>(BPM 200)</span></button>
+            <button class="diff-btn btn-easy" onpointerdown="startGame(100)">
+                <div class="btn-main">EASY</div>
+                <span>BPM 100 / ENTRY</span>
+            </button>
+            <button class="diff-btn btn-normal" onpointerdown="startGame(125)">
+                <div class="btn-main">NORMAL</div>
+                <span>BPM 125 / STANDARD</span>
+            </button>
+            <button class="diff-btn btn-fast" onpointerdown="startGame(160)">
+                <div class="btn-main">EXTREME</div>
+                <span>BPM 160+ / ENDLESS FEVER</span>
+            </button>
         </div>
+        <div class="pc-hint">PC: [0]-[9] Key / [SPACE] Quick Retry</div>
     </div>
 
+    <!-- メインゲームUI -->
     <div id="game-ui" class="game-container hidden">
-        <div id="fever-overlay" class="fever-text">FEVER TIME!! x3 SCORE</div>
+        <div id="fever-overlay" class="fever-text">FEVER TIME!! x3</div>
+        
+        <!-- 背面に浮かび上がる巨大コンボ透かし -->
+        <div id="bg-combo-watermark"></div>
+
         <div class="info-header">
             <span id="hearts-display" class="hearts">❤️❤️❤️</span>
-            <span id="bpm-display" class="bpm-info">BPM: 100</span>
-            <span class="time-info">TIME: <span id="time-display" class="time-display">30.00</span></span>
+            <span id="bpm-display" class="bpm-info">BPM 100</span>
+            <span class="time-info"><span id="time-display" class="time-display">30.00</span></span>
         </div>
+
         <div class="score-board">
-            <span style="text-shadow: 1px 1px 0 #000;">SCORE: <span id="score-val">0</span></span>
-            <span id="combo-display" class="combo-text">0 COMBO!</span>
+            <div class="score-wrap">
+                <span class="score-label">SCORE</span>
+                <span id="score-val">0</span>
+            </div>
+            <div id="combo-display" class="combo-text">0 COMBO!</div>
         </div>
-        <div id="color-card">Ready</div>
+
+        <!-- カラーカード＆外周収束タイミングバー -->
+        <div class="card-stage">
+            <div id="color-card">
+                <span id="card-dummy-text">READY</span>
+            </div>
+        </div>
+
         <div id="rhythm-area">
             <div class="clap-wrapper" id="clap-container"></div>
         </div>
+
         <div class="phase-bar-wrapper">
-            <div class="great-zone"></div>
+            <div class="perfect-zone-marker"></div>
             <div id="phase-bar" class="phase-timer"></div>
         </div>
+
         <div class="keypad">
-            <button class="key" onpointerdown="handleInput(1)">1</button>
-            <button class="key" onpointerdown="handleInput(2)">2</button>
-            <button class="key" onpointerdown="handleInput(3)">3</button>
-            <button class="key" onpointerdown="handleInput(4)">4</button>
-            <button class="key" onpointerdown="handleInput(5)">5</button>
-            <button class="key" onpointerdown="handleInput(6)">6</button>
-            <button class="key" onpointerdown="handleInput(7)">7</button>
-            <button class="key" onpointerdown="handleInput(8)">8</button>
-            <button class="key" onpointerdown="handleInput(9)">9</button>
-            <button class="key" disabled style="opacity:0.3; background:#95a5a6;">*</button>
-            <button class="key" onpointerdown="handleInput(0)">0</button>
-            <button class="key" disabled style="opacity:0.3; background:#95a5a6;">#</button>
+            <button class="key" data-key="1" onpointerdown="handleInput(1, event)">1</button>
+            <button class="key" data-key="2" onpointerdown="handleInput(2, event)">2</button>
+            <button class="key" data-key="3" onpointerdown="handleInput(3, event)">3</button>
+            <button class="key" data-key="4" onpointerdown="handleInput(4, event)">4</button>
+            <button class="key" data-key="5" onpointerdown="handleInput(5, event)">5</button>
+            <button class="key" data-key="6" onpointerdown="handleInput(6, event)">6</button>
+            <button class="key" data-key="7" onpointerdown="handleInput(7, event)">7</button>
+            <button class="key" data-key="8" onpointerdown="handleInput(8, event)">8</button>
+            <button class="key" data-key="9" onpointerdown="handleInput(9, event)">9</button>
+            
+            <!-- 左下：現在の倍率インジケーター -->
+            <div class="key-indicator" id="mult-indicator">
+                <span class="ind-label">MULT</span>
+                <span id="mult-val" class="ind-val">x1</span>
+            </div>
+            
+            <button class="key" data-key="0" onpointerdown="handleInput(0, event)">0</button>
+            
+            <!-- 右下：Ωエクステンドゲージ -->
+            <div class="key-indicator" id="omega-indicator">
+                <span class="ind-label">Ω BONUS</span>
+                <span id="omega-val" class="ind-val">☆☆☆</span>
+            </div>
         </div>
     </div>
 
+    <!-- リザルト画面 -->
     <div id="result-modal" class="hidden">
         <div class="result-content">
-            <div class="result-header-label">RECORD</div>
+            <div class="result-header-label" id="result-badge">RECORD</div>
             <h2 id="result-title">TIME UP!</h2>
             <div class="result-rank-box">
                 <span class="rank-label">RANK</span>
                 <div id="result-rank" class="rank-value">C</div>
+                <div id="next-rank-hint" class="next-rank-hint">NEXT RANK: +500 pt</div>
             </div>
             <div class="result-details">
-                <p>SCORE <br><span id="result-score" class="result-num">0</span></p>
-                <p>MAX COMBO <br><span id="result-combo" class="result-num">0</span></p>
+                <div class="res-stat">
+                    SCORE
+                    <span id="result-score" class="result-num">0</span>
+                </div>
+                <div class="res-stat">
+                    MAX COMBO
+                    <span id="result-combo" class="result-num">0</span>
+                </div>
             </div>
             <div class="result-buttons">
-                <button class="btn-retry" onpointerdown="backToTitle()">BACK TO TITLE</button>
+                <button class="btn-retry-now" onpointerdown="retryGame()">⚡ RETRY NOW ⚡</button>
+                <button class="btn-title" onpointerdown="backToTitle()">TITLE</button>
             </div>
         </div>
     </div>
