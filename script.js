@@ -444,13 +444,13 @@ function pulseContainer() {
 
 function resetPhaseBar() {
     phaseBar.style.transition = 'none';
-    phaseBar.style.width = '100%';
+    phaseBar.style.width = '0%';
 }
 
 function startPhaseBar(duration) {
     phaseBar.style.transition = `width ${duration}ms linear`;
     requestAnimationFrame(() => {
-        phaseBar.style.width = '0%';
+        phaseBar.style.width = '100%';
     });
 }
 
@@ -472,12 +472,12 @@ function handleInput(num, event) {
     }
 
     isAnswered = true;
-    const currentWidth = phaseBar.getBoundingClientRect().width;
+    const maskWidth = phaseBar.getBoundingClientRect().width;
     const parentWidth = phaseBar.parentElement.getBoundingClientRect().width;
-    const percentage = (currentWidth / parentWidth) * 100;
+    const percentage = 100 - ((maskWidth / parentWidth) * 100);
 
     phaseBar.style.transition = 'none';
-    phaseBar.style.width = percentage + '%';
+    phaseBar.style.width = (100 - percentage) + '%';
 
     if (num === currentTarget.val) {
         combo++;
