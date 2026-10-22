@@ -385,46 +385,54 @@ body {
     100% { background-position: 200% center; }
 }
 
-/* タイミングフェーズバー（Ω PERFECTセンターマーカー付き） */
+/* タイミングバーの外枠 兼 判定ゾーンの背景グラデーション */
 .phase-bar-wrapper {
     position: relative;
     width: 100%;
     height: 18px;
-    background: #090d16;
     border-radius: 9px;
     overflow: hidden;
-    border: 2px solid rgba(255, 255, 255, 0.8);
-    box-shadow: 0 0 12px rgba(0, 255, 255, 0.3), inset 0 2px 5px rgba(0,0,0,0.9);
-    box-sizing: border-box; /* 枠線を幅に含める */
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 12px rgba(0, 255, 255, 0.35), inset 0 2px 5px rgba(0,0,0,0.8);
+    box-sizing: border-box;
+    /* 判定帯を親側に固定（絶対に縮んだり歪んだりしない） */
+    background: linear-gradient(90deg, 
+        #ff2a55 0%, #ff2a55 33.33%, 
+        #00e676 33.33%, #00e676 44%, 
+        #ffea00 44%, #ffffff 50%, #ffea00 56%, 
+        #00e676 56%, #00e676 66.66%, 
+        #ff2a55 66.66%, #ff2a55 100%);
 }
 
-.perfect-zone-marker {
+/* 中央のΩ PERFECTゾーンのガイド枠（擬似要素で綺麗に配置） */
+.phase-bar-wrapper::after {
+    content: '';
     position: absolute;
-    top: 0; left: 44%; width: 12%; height: 100%;
-    background: rgba(255, 255, 255, 0.25);
-    border-left: 2px solid #fff;
-    border-right: 2px solid #fff;
-    z-index: 4;
+    top: 0;
+    left: 44%;
+    width: 12%;
+    height: 100%;
+    border-left: 2px solid #ffffff;
+    border-right: 2px solid #ffffff;
+    background: rgba(255, 255, 255, 0.2);
+    box-sizing: border-box;
     pointer-events: none;
-    box-shadow: 0 0 10px #fff;
-    box-sizing: border-box; /* 境界線のズレ防止 */
+    z-index: 5;
+    box-shadow: 0 0 8px #ffffff;
 }
 
+/* 実際に右から左へ減っていくマスクバー（黒い背景を右から被せる） */
 .phase-timer {
     position: absolute;
-    top: 0; left: 0; height: 100%; width: 100%; z-index: 2;
-    background-image: 
-        linear-gradient(90deg, 
-            #ff2a55 0%, #ff2a55 33.33%, 
-            #00e676 33.33%, #00e676 44%, 
-            #ffea00 44%, #ffffff 50%, #ffea00 56%, 
-            #00e676 56%, #00e676 66.66%, 
-            #ff2a55 66.66%, #ff2a55 100%);
-    /* ▼ ここを修正：固定330pxをやめ、伸縮に完全追従させる */
-    background-size: 100% 100%;
-    background-position: left center;
-    background-repeat: no-repeat;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 0%; /* 初期状態は未カバー（全開） */
+    background: #090d16; /* 背景と同じダークカラー */
+    z-index: 2;
     box-sizing: border-box;
+    border-left: 2px solid #00ffff; /* 現在のタイミングを示すシークライン（光る縦線） */
+    box-shadow: -2px 0 8px #00ffff;
 }
 
 /* テンキーパッド */
