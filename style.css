@@ -395,7 +395,7 @@ body {
     overflow: hidden;
     border: 2px solid rgba(255, 255, 255, 0.8);
     box-shadow: 0 0 12px rgba(0, 255, 255, 0.3), inset 0 2px 5px rgba(0,0,0,0.9);
-    box-sizing: border-box;
+    box-sizing: border-box; /* 枠線を幅に含める */
 }
 
 .perfect-zone-marker {
@@ -407,6 +407,7 @@ body {
     z-index: 4;
     pointer-events: none;
     box-shadow: 0 0 10px #fff;
+    box-sizing: border-box; /* 境界線のズレ防止 */
 }
 
 .phase-timer {
@@ -419,9 +420,11 @@ body {
             #ffea00 44%, #ffffff 50%, #ffea00 56%, 
             #00e676 56%, #00e676 66.66%, 
             #ff2a55 66.66%, #ff2a55 100%);
-    background-size: 330px 100%;
-    background-position: left top;
+    /* ▼ ここを修正：固定330pxをやめ、伸縮に完全追従させる */
+    background-size: 100% 100%;
+    background-position: left center;
     background-repeat: no-repeat;
+    box-sizing: border-box;
 }
 
 /* テンキーパッド */
